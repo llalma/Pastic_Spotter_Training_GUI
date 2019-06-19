@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 import os
 import paramiko
+import time
 
 #Variables
 t = tk.Toplevel()
@@ -54,15 +55,19 @@ def Request_Resources(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount):
     
     #Transfer batch file to HPC
     sftp = ssh_client.open_sftp()
-    sftp.put(str(os.getcwd())+"\\batch.sh", "/home/n9960392/_ws/batch.sh"))
+    sftp.put(str(os.getcwd())+"\\batch.sh", "/home/n9960392/_ws/batch.sh")
 
     #Change to file location
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd _ws/")
 
-    sleep(10)
+    #Wait 10 secs to e nsure transfer is complete
+    time.sleep(10)
 
     #Execute batch script
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("qsub batch.sh")
+
+    for line in iter(lambda: ssh_stdout.readline(2048), ""):
+        print(line, end="")
 
     ssh_client.close()
 
