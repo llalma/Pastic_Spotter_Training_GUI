@@ -25,7 +25,7 @@ def Select_Folder_Coords():
     print(Coords_folder_path)
 
 #enable and disable button from check box
-def switch(ssh_client):
+def switch():
     if(same_Path.get() == 1):
         entry.config(textvariable = Images_folder_path)
         button["state"] = "disabled"
@@ -33,16 +33,53 @@ def switch(ssh_client):
         entry.config(textvariable = Coords_folder_path)
         button["state"] = "normal"  
 
-#Train program using variables
-def Train(ssh_client):
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("ls")
-    print(ssh_stdout)
+def Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount):
+    with open("batch.sh", "r+") as f:
+        txt = f.readlines()
+        f.seek(0)
+
+        f.write("#!/usr/bin/env bash\n#PBS -N install_packages\n#PBS -l ncpus="+str(CPU_Amount.get())+"\n#PBS -l mem="+str(RAM_Amount.get())+"GB\n#PBS -l walltime="+str(Run_Time.get())+":00:00\n#PBS -l ngpus="+str(GPU_Amount.get())+"\n#PBS -l gputype=P100\n#PBS -o bt_20000_stdout.out\n#PBS -e bt_20000_stderr.out\n")
+        line_num = 0
+        for line in enumerate(txt):
+            line_num+=1
+            if(line_num > 9):
+                f.write(str(line[1]))
+        f.close()
+
+
+        
+#Request_Resources program using variables
+def Request_Resources(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount):
+    Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount)
+    
+    #Transfer batch file to HPC
+    sftp = ssh_client.open_sftp()
+    sftp.put(str(os.getcwd())+"\\batch.sh", "/home/n9960392/_ws/batch.sh")
+
+
+
+    ssh_client.close()
+
+# Wait for a session to be submitted. then load the following modules:
+# $ module load cuda
+# $ module load cudnn
+
+# to check for available versions use:
+# $ module avail cuda
+# $ module avail cudnn
+
 
 
 def Main(ssh_client):
+    #Resource Variables
+    Run_Time = tk.IntVar()
+    Run_Time.set("00")
+    RAM_Amount = tk.IntVar()
+    CPU_Amount = tk.IntVar()
+    GPU_Amount = tk.IntVar()
 
     #Images label,entry and button
-    tk.Label(t,text="Images Folder").grid(row=0)
+    tk.Label(t,text="Images Folder").grid(row=0,sticky="w")
     tk.Entry(t,textvariable=Images_folder_path).grid(row = 0,column = 1)
     tk.Button(t,text="...",command=Select_Folder_Images).grid(row = 0,column = 2)
 
@@ -51,14 +88,32 @@ def Main(ssh_client):
     tk.Checkbutton(t, text="Same Folder", variable=same_Path, command=switch).grid(row=1)
 
     #Coordiantes label,entry and button
-    tk.Label(t,text="Coords Folder").grid(row=2)
+    tk.Label(t,text="Coords Folder").grid(row=2,sticky="w")
     button = tk.Button(t,text="...",command=Select_Folder_Coords, state = "disabled")
     button.grid(row = 2,column = 2)
     entry = tk.Entry(t,textvariable=Images_folder_path)
     entry.grid(row = 2,column = 1)
 
-    #Train button
-    tk.Button(t,text="Train",command= lambda: Train(ssh_client)).grid(row = 3,column = 2)
+    #Resources
+
+    #CPUs
+    tk.Label(t,text="Number of CPUs").grid(row=3,sticky="w")
+    tk.Entry(t,textvariable=CPU_Amount).grid(row = 3,column = 2)
+
+    #RAM
+    tk.Label(t,text="Amount of RAM").grid(row=4,sticky="w")
+    tk.Entry(t,textvariable=RAM_Amount).grid(row = 4,column = 2)
+
+    #Time Hours
+    tk.Label(t,text="Run Time (Hours)").grid(row=5,sticky="w")
+    tk.Entry(t,textvariable=Run_Time).grid(row = 5,column = 2)
+
+    #Num of GPUs
+    tk.Label(t,text="Number of GPUs").grid(row=6,sticky="w")
+    tk.Entry(t,textvariable=GPU_Amount).grid(row = 6,column = 2)
+
+    #Request_Resources button
+    tk.Button(t,text="Train",command= lambda: Request_Resources(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount)).grid(row = 7,column = 2)
 
     #Run program
     # root_new.mainloop()

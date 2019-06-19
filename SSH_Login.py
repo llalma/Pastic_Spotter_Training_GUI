@@ -8,7 +8,11 @@ f = tk.Toplevel()
 f.withdraw()
 
 Host = tk.StringVar()
+Host.set("lyra.qut.edu.au")
+
 Username = tk.StringVar()
+Username.set("n9960392")
+
 Password = tk.StringVar()
 
 def Connect():
@@ -30,13 +34,6 @@ def Connect():
 
 
 def Main():
-    #Main  
-    # root = tk.Tk()
-
-    # Host = tk.StringVar()
-    # Username = tk.StringVar()
-    # Password = tk.StringVar()
-
     #Host,Username and pass
     tk.Label(text="Host").grid(row=0)
     tk.Entry(textvariable=Host).grid(row = 0,column = 1)
