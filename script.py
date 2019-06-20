@@ -3,6 +3,7 @@ from tkinter import filedialog
 import os
 import paramiko
 import time
+import re
 
 def Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
     with open("batch.sh", "r+") as f:
@@ -20,18 +21,29 @@ def Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
         f.close()
 
 def Create_List(ssh_client,Folder_Name):
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("ls _ws/darknet/" + Folder_Name.get() + "/data/train -R | grep -e 'jpg'")
-
+    folder = "_ws/darknet/" + Folder_Name.get() + "/data/train"
+    
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("find "+folder+" -iregex '.+\.jpg'")
+   
     file = open("train.list","w")
     file.truncate()
-    file.writelines(ssh_stdout.readlines()) 
+
+    #Remove path preceding current directory
+    for line in ssh_stdout.readlines():
+        file.write(line.replace(folder,""))
+
     file.close()
 
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("ls _ws/darknet/" + Folder_Name.get() + "/data/test -R | grep -e 'jpg'")
+    folder = "_ws/darknet/" + Folder_Name.get() + "/data/test"
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("find "+folder+" -iregex '.+\.jpg'")
 
     file = open("test.list","w")
     file.truncate()
-    file.writelines(ssh_stdout.readlines()) 
+
+    #Remove path preceding current directory
+    for line in ssh_stdout.readlines():
+        file.write(line.replace(folder,""))
+
     file.close()
 
 def Transfer(ssh_client,Folder_Name):
@@ -50,7 +62,7 @@ def Transfer(ssh_client,Folder_Name):
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd _ws/")
 
     #Wait 10 secs to ensure transfer is complete
-    time.sleep(10)
+    time.sleep(3)
 
         
 #Request_Resources program using variables
