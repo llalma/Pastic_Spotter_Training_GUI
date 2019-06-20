@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 #PBS -N install_packages
-#PBS -l ncpus=1
-#PBS -l mem=16GB
-#PBS -l walltime=1:00:00
-#PBS -l ngpus=1
+#PBS -l ncpus=0
+#PBS -l mem=0GB
+#PBS -l walltime=0:00:00
+#PBS -l ngpus=0
 #PBS -l gputype=P100
 #PBS -o bt_20000_stdout.out
 #PBS -e bt_20000_stderr.out
-###############################################
+
 #
 #
 #  Display PBS info
@@ -75,8 +75,7 @@ run_program(){
     #where this bash job script is
     cd $PBS_O_WORKDIR
     #now run the script
-    :
-    # ./darknet detector train 20190424_trashnet_5/data/trashnet5.data 20190424_trashnet_5/cfg/trashnet5_train_4_gpu.cfg trashnet4_train_1000.weights   
+    ./darknet detector train 20190619_trashnet_5/data/trashnet5.data 20190619_trashnet_5/cfg/trashnet5_train_4_gpu.cfg trashnet4_train_1000.weights
 }
 
 
@@ -104,4 +103,4 @@ run_cleannad_modules
 copy_in
 copy_out
 run_program
-run_cleanncleanncleann
+run_cleanncleanncleannneanncleannnnnnnn

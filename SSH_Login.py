@@ -4,8 +4,7 @@ import script
 
 check = False
 
-f = tk.Toplevel()
-f.withdraw()
+root = tk.Tk()
 
 Host = tk.StringVar()
 Host.set("lyra.qut.edu.au")
@@ -25,8 +24,8 @@ def Connect():
         status =  ssh_client.get_transport().is_active()
         
         if(status):
-            tk.Label(text="Connection successful").grid(row=3,column = 0)
-            script.Main(ssh_client)
+            root.withdraw()
+            script.Main(ssh_client,root)
 
 
     except Exception as e:
@@ -35,15 +34,17 @@ def Connect():
 
 def Main():
     #Host,Username and pass
-    tk.Label(text="Host").grid(row=0)
-    tk.Entry(textvariable=Host).grid(row = 0,column = 1)
+    tk.Label(root,text="Host").grid(row=0)
+    tk.Entry(root,textvariable=Host).grid(row = 0,column = 1)
 
-    tk.Label(text="Username").grid(row=1)
-    tk.Entry(textvariable=Username).grid(row = 1,column = 1)
+    tk.Label(root,text="Username").grid(row=1)
+    tk.Entry(root,textvariable=Username).grid(row = 1,column = 1)
 
-    tk.Label(text="Password").grid(row=2)
-    tk.Entry(textvariable=Password, show="*").grid(row = 2,column = 1)
+    tk.Label(root,text="Password").grid(row=2)
+    tk.Entry(root,textvariable=Password, show="*").grid(row = 2,column = 1)
 
     #Login button
-    tk.Button(text="Login",command=Connect).grid(row = 3,column = 2)
+    tk.Button(root,text="Login",command=Connect).grid(row = 3,column = 2)
+
+    root.mainloop()
 

@@ -8,9 +8,4 @@ from tkinter import Button, filedialog
 path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(path)
 
-root = tk.Tk()
-
 SSH_Login.Main()
-
-#Run program
-root.mainloop()
