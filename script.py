@@ -15,7 +15,7 @@ def Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
         for line in enumerate(txt):
             line_num+=1
             if(line_num == 78):
-                f.write("    ./darknet detector train "+Folder_Name.get()+"/data/trashnet5.data "+Folder_Name.get()+"/cfg/trashnet5_train_4_gpu.cfg trashnet4_train_1000.weights\n")
+                f.write("    ./_ws/darknet/darknet.exe detector train _ws/darknet/"+Folder_Name.get()+"/data/trashnet5.data _ws/darknet/"+Folder_Name.get()+"/cfg/trashnet5_train_4_gpu.cfg _ws/darknet/"+Folder_Name.get()+"/weights/trashnet4_train_1000.weights\n")
             elif(line_num > 9):
                 f.write(str(line[1]))
         f.close()
@@ -29,9 +29,9 @@ def Create_List(ssh_client,Folder_Name):
     file.truncate()
 
     #Remove path preceding current directory
-    # file.writelines(ssh_stdout.readlines())
-    for line in ssh_stdout.readlines():
-        file.write(line.replace("_ws/darknet/",""))
+    file.writelines(ssh_stdout.readlines())
+    # for line in ssh_stdout.readlines():
+    #     file.write(line.replace("_ws/darknet/",""))
 
     file.close()
 
@@ -42,20 +42,20 @@ def Create_List(ssh_client,Folder_Name):
     file.truncate()
 
     #Remove path preceding current directory
-    # file.writelines(ssh_stdout.readlines())
-    for line in ssh_stdout.readlines():
-        file.write(line.replace("_ws/darknet/",""))
+    file.writelines(ssh_stdout.readlines())
+    # for line in ssh_stdout.readlines():
+    #     file.write(line.replace("_ws/darknet/",""))
 
     file.close()
 
 def Create_trashnet5_file(ssh_client,Folder_Name):
-    text = ["classes = 5",
-        "train   = "+Folder_Name+"/data/train.list",
-        "valid   = "+Folder_Name+"/data/test.list",
-        "labels  = "+Folder_Name+"/data/trashnet5.txt",
-        "names   = "+Folder_Name+"/data/trashnet5.names",
-        "backup  = "+Folder_Name+"/weights/",
-        "top     = 2"]
+    text = ["classes = 5\n",
+        "train   =  _ws/darknet/"+Folder_Name.get()+"/data/train.list\n",
+        "valid   =  _ws/darknet/"+Folder_Name.get()+"/data/test.list\n",
+        "labels  =  _ws/darknet/"+Folder_Name.get()+"/data/trashnet5.txt\n",
+        "names   =  _ws/darknet/"+Folder_Name.get()+"/data/trashnet5.names\n",
+        "backup  =  _ws/darknet/"+Folder_Name.get()+"/weights/\n",
+        "top     = 2\n"]
 
     file = open("trashnet5.data","w")
     file.truncate()
@@ -89,16 +89,16 @@ def Transfer(ssh_client,Folder_Name):
 def Request_Resources(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name,root):
     Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name)
     Create_List(ssh_client,Folder_Name)
+    Create_trashnet5_file(ssh_client,Folder_Name)
     
     #Transfer created files to HPC
     Transfer(ssh_client,Folder_Name)
 
     #Execute batch script
-    #For Results
-    # ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("qsub batch.sh")
+    # ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("qsub _ws/batch.sh")
 
     #For Training
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("./darknet detector train 20190619_trashnet_5/data/trashnet5.data 20190619_trashnet_5/cfg/trashnet5_train_4_gpu.cfg 20190619_trashnet_5/weights/trashnet4_train_1000.weights")
+    # ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("./darknet detector train 20190619_trashnet_5/data/trashnet5.data 20190619_trashnet_5/cfg/trashnet5_train_4_gpu.cfg 20190619_trashnet_5/weights/trashnet4_train_1000.weights")
     
 
     ssh_client.close()

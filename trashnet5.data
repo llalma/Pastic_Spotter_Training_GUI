@@ -1,7 +1,7 @@
 classes = 5
-train   = 20190619_trashnet_5/data/train.list
-valid   = 20190619_trashnet_5/data/test.list
-labels  = 20190619_trashnet_5/data/trashnet5.txt
-names   = 20190619_trashnet_5/data/trashnet5.names
-backup  = 20190619_trashnet_5/weights/
+train   =  _ws/darknet/20190619_trashnet_5/data/train.list
+valid   =  _ws/darknet/20190619_trashnet_5/data/test.list
+labels  =  _ws/darknet/20190619_trashnet_5/data/trashnet5.txt
+names   =  _ws/darknet/20190619_trashnet_5/data/trashnet5.names
+backup  =  _ws/darknet/20190619_trashnet_5/weights/
 top     = 2
