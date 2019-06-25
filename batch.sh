@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #PBS -N install_packages
 #PBS -l ncpus=1
-#PBS -l mem=32GB
+#PBS -l mem=64GB
 #PBS -l walltime=1:00:00
-#PBS -l ngpus=1
+#PBS -l ngpus=2
 #PBS -l gputype=P100
 #PBS -o bt_20000_stdout.out
 #PBS -e bt_20000_stderr.out

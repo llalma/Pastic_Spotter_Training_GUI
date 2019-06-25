@@ -30,8 +30,6 @@ def Create_List(ssh_client,Folder_Name):
 
     #Remove path preceding current directory
     file.writelines(ssh_stdout.readlines())
-    # for line in ssh_stdout.readlines():
-    #     file.write(line.replace("_ws/darknet/",""))
 
     file.close()
 
@@ -43,8 +41,6 @@ def Create_List(ssh_client,Folder_Name):
 
     #Remove path preceding current directory
     file.writelines(ssh_stdout.readlines())
-    # for line in ssh_stdout.readlines():
-    #     file.write(line.replace("_ws/darknet/",""))
 
     file.close()
 
@@ -95,7 +91,7 @@ def Request_Resources(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folde
     Transfer(ssh_client,Folder_Name)
 
     #Execute batch script
-    # ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("qsub _ws/batch.sh")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("qsub _ws/batch.sh")
 
     #For Training
     # ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("./darknet detector train 20190619_trashnet_5/data/trashnet5.data 20190619_trashnet_5/cfg/trashnet5_train_4_gpu.cfg 20190619_trashnet_5/weights/trashnet4_train_1000.weights")
@@ -109,10 +105,13 @@ def Main(ssh_client,root):
 
     #Resource Variables
     Run_Time = tk.IntVar()
-    Run_Time.set("00")
+    Run_Time.set("4")
     RAM_Amount = tk.IntVar()
+    RAM_Amount.set(64)
     CPU_Amount = tk.IntVar()
+    CPU_Amount.set(1)
     GPU_Amount = tk.IntVar()
+    GPU_Amount.set(1)
     Folder_Name = tk.StringVar()
     Folder_Name.set("20190619_trashnet_5")
 
