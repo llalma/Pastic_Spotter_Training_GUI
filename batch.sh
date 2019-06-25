@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #PBS -N install_packages
-#PBS -l ncpus=0
-#PBS -l mem=0GB
-#PBS -l walltime=0:00:00
-#PBS -l ngpus=0
+#PBS -l ncpus=2
+#PBS -l mem=64GB
+#PBS -l walltime=4:00:00
+#PBS -l ngpus=1
 #PBS -l gputype=P100
 #PBS -o bt_20000_stdout.out
 #PBS -e bt_20000_stderr.out
@@ -99,8 +99,4 @@ load_modules
 copy_in
 copy_out
 run_program
-run_cleannad_modules
-copy_in
-copy_out
-run_program
-run_cleanncleanncleannneanncleannnnnnnn
+run_clean

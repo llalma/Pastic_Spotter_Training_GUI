@@ -29,8 +29,9 @@ def Create_List(ssh_client,Folder_Name):
     file.truncate()
 
     #Remove path preceding current directory
+    # file.writelines(ssh_stdout.readlines())
     for line in ssh_stdout.readlines():
-        file.write(line.replace(folder,""))
+        file.write(line.replace("_ws/darknet/",""))
 
     file.close()
 
@@ -41,13 +42,29 @@ def Create_List(ssh_client,Folder_Name):
     file.truncate()
 
     #Remove path preceding current directory
+    # file.writelines(ssh_stdout.readlines())
     for line in ssh_stdout.readlines():
-        file.write(line.replace(folder,""))
+        file.write(line.replace("_ws/darknet/",""))
 
     file.close()
 
+def Create_trashnet5_file(ssh_client,Folder_Name):
+    text = ["classes = 5",
+        "train   = "+Folder_Name+"/data/train.list",
+        "valid   = "+Folder_Name+"/data/test.list",
+        "labels  = "+Folder_Name+"/data/trashnet5.txt",
+        "names   = "+Folder_Name+"/data/trashnet5.names",
+        "backup  = "+Folder_Name+"/weights/",
+        "top     = 2"]
+
+    file = open("trashnet5.data","w")
+    file.truncate()
+
+    file.writelines(text)
+    file.close()
+
 def Transfer(ssh_client,Folder_Name):
-#Transfer batch file to HPC
+    #Transfer batch file to HPC
 
     sftp = ssh_client.open_sftp()
     sftp.put(str(os.getcwd())+"\\batch.sh", "/home/n9960392/_ws/batch.sh")
@@ -57,6 +74,9 @@ def Transfer(ssh_client,Folder_Name):
 
     #Transfer test list file to HPC
     sftp.put(str(os.getcwd())+"\\test.list", "/home/n9960392/_ws/darknet/" + Folder_Name.get() + "/data/test.list")
+
+    #Transfer trashnet5.txt to HPC
+    sftp.put(str(os.getcwd())+"\\trashnet5.data", "/home/n9960392/_ws/darknet/" + Folder_Name.get() + "/data/trashnet5.data")
 
     #Change to file location
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd _ws/")
@@ -74,7 +94,12 @@ def Request_Resources(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folde
     Transfer(ssh_client,Folder_Name)
 
     #Execute batch script
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("qsub batch.sh")
+    #For Results
+    # ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("qsub batch.sh")
+
+    #For Training
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("./darknet detector train 20190619_trashnet_5/data/trashnet5.data 20190619_trashnet_5/cfg/trashnet5_train_4_gpu.cfg 20190619_trashnet_5/weights/trashnet4_train_1000.weights")
+    
 
     ssh_client.close()
     root.destroy()
