@@ -15,7 +15,7 @@ def Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
         for line in enumerate(txt):
             line_num+=1
             if(line_num == 78):
-                f.write("    ./_ws/darknet/darknet.exe detector train _ws/darknet/"+Folder_Name.get()+"/data/trashnet5.data _ws/darknet/"+Folder_Name.get()+"/cfg/trashnet5_train_4_gpu.cfg _ws/darknet/"+Folder_Name.get()+"/weights/trashnet4_train_1000.weights\n")
+                f.write("    _ws/darknet/darknet.exe detector train _ws/darknet/"+Folder_Name.get()+"/data/trashnet5.data _ws/darknet/"+Folder_Name.get()+"/cfg/trashnet5_train_4_gpu.cfg _ws/darknet/"+Folder_Name.get()+"/weights/trashnet4_train_1000.weights\n")
             elif(line_num > 9):
                 f.write(str(line[1]))
         f.close()
@@ -63,7 +63,7 @@ def Transfer(ssh_client,Folder_Name):
     #Transfer batch file to HPC
 
     sftp = ssh_client.open_sftp()
-    sftp.put(str(os.getcwd())+"\\batch.sh", "/home/n9960392/_ws/batch.sh")
+    sftp.put(str(os.getcwd())+"\\batch.sh", "/home/n9960392/bin/batch.sh")
 
     #Transfer test list file to HPC
     sftp.put(str(os.getcwd())+"\\train.list", "/home/n9960392/_ws/darknet/" + Folder_Name.get() + "/data/train.list")
