@@ -15,7 +15,23 @@ def Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
         for line in enumerate(txt):
             line_num+=1
             if(line_num == 78):
-                f.write("    ./darknet/darknet detector train darknet/data/data.data darknet/data/trashnet.cfg darknet/data/trashnet.weights\n")
+                f.write("    ./../darknet/darknet detector train ../data/data.data ../data/trashnet.cfg ../data/trashnet.weights\n")
+            elif(line_num > 9):
+                f.write(str(line[1]))
+        f.close()
+
+
+def Create_Batch_Predict(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
+    with open("batch.sh", "r+") as f:
+        txt = f.readlines()
+        f.seek(0)
+
+        f.write("#!/usr/bin/env bash\n#PBS -N install_packages\n#PBS -l ncpus="+str(CPU_Amount.get())+"\n#PBS -l mem="+str(RAM_Amount.get())+"GB\n#PBS -l walltime="+str(Run_Time.get())+":00:00\n#PBS -l ngpus="+str(GPU_Amount.get())+"\n#PBS -l gputype=P100\n#PBS -o bt_20000_stdout.out\n#PBS -e bt_20000_stderr.out\n")
+        line_num = 0
+        for line in enumerate(txt):
+            line_num+=1
+            if(line_num == 78):
+                f.write("    ./../darknet detector test ../data/data.data ../data/trashnet.cfg ../data/trashnet.weights < predict.list > result.txt\n")
             elif(line_num > 9):
                 f.write(str(line[1]))
         f.close()
@@ -46,6 +62,21 @@ def Create_List(ssh_client,Folder_Name):
 
     file.close()
 
+def Create_List_Test(ssh_client):
+
+    folder = "/home/n9960392/darknet/predict/"
+    
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("find "+folder+" -iregex '.+\.jpg'")
+
+   
+    file = open("predict.list","w")
+    file.truncate()
+
+    #Remove path preceding current directory
+    file.writelines(ssh_stdout.readlines())
+
+    file.close()
+
 def Create_trashnet5_file(ssh_client,Folder_Name):
     text = ["classes = 5\n",
         "train   =  _ws/darknet/"+Folder_Name.get()+"/data/train.list\n",
@@ -65,7 +96,7 @@ def Transfer(ssh_client,Folder_Name):
     #Transfer batch file to HPC
 
     sftp = ssh_client.open_sftp()
-    sftp.put(str(os.getcwd())+"\\batch.sh", "/home/n9960392/darknet/batch.sh")
+    sftp.put(str(os.getcwd())+"\\batch.sh", "/home/n9960392/darknet/run/batch.sh")
 
     #Transfer test list file to HPC
     sftp.put(str(os.getcwd())+"\\train.list", "/home/n9960392/darknet/data/" + Folder_Name.get() + "/train.list")
@@ -73,12 +104,16 @@ def Transfer(ssh_client,Folder_Name):
     #Transfer test list file to HPC
     sftp.put(str(os.getcwd())+"\\test.list", "/home/n9960392/darknet/data/" + Folder_Name.get() + "/test.list")
 
+    #Transfer predict list file to HPC
+    sftp.put(str(os.getcwd())+"\\predict.list", "/home/n9960392/darknet/run/predict.list")
+
     #Transfer trashnet5.txt to HPC
     sftp.put(str(os.getcwd())+"\\trashnet5.data", "/home/n9960392/darknet/data/" + Folder_Name.get() + "/trashnet5.data")
 
     #Convert windows line endii=ngs to unix line endings
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/data/" + Folder_Name.get() + ";dos2unix test.list; dos2unix train.list")
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/ ;dos2unix batch.sh")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/run ;dos2unix batch.sh")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/run ;dos2unix predict.list")
     
 
     #Wait 10 secs to ensure transfer is complete
@@ -95,7 +130,21 @@ def Request_Resources(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folde
     Transfer(ssh_client,Folder_Name)
 
     #Execute batch script
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("qsub darknet/batch.sh")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/run; qsub batch.sh")
+
+    ssh_client.close()
+    root.destroy()
+
+#Predict
+def Predict(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name,root):
+    Create_Batch_Predict(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name)
+    Create_List_Test(ssh_client)
+    
+    #Transfer created files to HPC
+    Transfer(ssh_client,Folder_Name)
+
+    #Execute batch script
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/run; qsub batch.sh")
 
     ssh_client.close()
     root.destroy()
@@ -138,3 +187,6 @@ def Main(ssh_client,root):
 
     #Request_Resources button
     tk.Button(t,text="Train",command= lambda: Request_Resources(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount, Folder_Name,root)).grid(row = 7,column = 2)
+
+    #Request_Resources button
+    tk.Button(t,text="Predict",command= lambda: Predict(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount, Folder_Name,root)).grid(row = 8,column = 2)

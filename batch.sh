@@ -75,7 +75,7 @@ run_program(){
     #where this bash job script is
     cd $PBS_O_WORKDIR
     #now run the script
-    ./darknet/darknet detector train darknet/data/data.data darknet/data/trashnet.cfg darknet/data/trashnet.weights
+    ./../darknet detector test ../data/data.data ../data/trashnet.cfg ../data/trashnet.weights < predict.list > result.txt
 }
 
 
@@ -98,5 +98,11 @@ print_pbs_info
 load_modules
 copy_in
 copy_out
+run_program
+run_clean
+_out
+run_program
+run_clean
+
 run_program
 run_clean
