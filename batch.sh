@@ -75,7 +75,7 @@ run_program(){
     #where this bash job script is
     cd $PBS_O_WORKDIR
     #now run the script
-    ./../darknet detector test ../data/data.data ../data/trashnet.cfg ../data/trashnet.weights < predict.list > result.txt
+    ./../darknet detector train ../data/20190501_AspectUAV_Images/trashnet.data ../data/trashnet.cfg ../data/trashnet.weights
 }
 
 
@@ -106,3 +106,6 @@ run_clean
 
 run_program
 run_clean
+rogram
+run_clean
+_clean

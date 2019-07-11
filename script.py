@@ -15,7 +15,7 @@ def Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
         for line in enumerate(txt):
             line_num+=1
             if(line_num == 78):
-                f.write("    ./../darknet/darknet detector train ../data/data.data ../data/trashnet.cfg ../data/trashnet.weights\n")
+                f.write("    ./../darknet detector train ../data/" + Folder_Name.get() + "/trashnet.data ../data/trashnet.cfg ../data/trashnet.weights\n")
             elif(line_num > 9):
                 f.write(str(line[1]))
         f.close()
@@ -31,7 +31,7 @@ def Create_Batch_Predict(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
         for line in enumerate(txt):
             line_num+=1
             if(line_num == 78):
-                f.write("    ./../darknet detector test ../data/data.data ../data/trashnet.cfg ../data/trashnet.weights < predict.list > result.txt\n")
+                f.write("    ./../darknet detector test ../data/" + Folder_Name.get() + "/trashnet.data ../data/trashnet.cfg ../data/trashnet.weights < predict.list > result.txt\n")
             elif(line_num > 9):
                 f.write(str(line[1]))
         f.close()
@@ -79,12 +79,10 @@ def Create_List_Test(ssh_client):
 
 def Create_trashnet5_file(ssh_client,Folder_Name):
     text = ["classes = 5\n",
-        "train   =  _ws/darknet/"+Folder_Name.get()+"/data/train.list\n",
-        "valid   =  _ws/darknet/"+Folder_Name.get()+"/data/test.list\n",
-        "labels  =  _ws/darknet/"+Folder_Name.get()+"/data/trashnet5.txt\n",
-        "names   =  _ws/darknet/"+Folder_Name.get()+"/data/trashnet5.names\n",
-        "backup  =  _ws/darknet/"+Folder_Name.get()+"/weights/\n",
-        "top     = 2\n"]
+        "train   =  /home/n9960392/darknet/data/"+Folder_Name.get()+"/train.list\n",
+        "valid   =  /home/n9960392/darknet/data/"+Folder_Name.get()+"/test.list\n",
+        "names   =  /home/n9960392/darknet/data/trashnet.names\n",
+        "backup  =  /home/n9960392/darknet/data/"+Folder_Name.get()+"/weights/\n"]
 
     file = open("trashnet5.data","w")
     file.truncate()
@@ -108,12 +106,13 @@ def Transfer(ssh_client,Folder_Name):
     sftp.put(str(os.getcwd())+"\\predict.list", "/home/n9960392/darknet/run/predict.list")
 
     #Transfer trashnet5.txt to HPC
-    sftp.put(str(os.getcwd())+"\\trashnet5.data", "/home/n9960392/darknet/data/" + Folder_Name.get() + "/trashnet5.data")
+    sftp.put(str(os.getcwd())+"\\trashnet5.data", "/home/n9960392/darknet/data/" + Folder_Name.get() + "/trashnet.data")
 
     #Convert windows line endii=ngs to unix line endings
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/data/" + Folder_Name.get() + ";dos2unix test.list; dos2unix train.list")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/data/" + Folder_Name.get() + ";dos2unix test.list; dos2unix train.list; dos2unix trashnet.data")
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/run ;dos2unix batch.sh")
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/run ;dos2unix predict.list")
+    # ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd /home/n9960392/darknet/data/" + Folder_Name.get() + ";dos2unix trashnet.data")
     
 
     #Wait 10 secs to ensure transfer is complete
