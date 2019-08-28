@@ -1,9 +1,142 @@
-/home/n9960392/darknet/data/20190501_AspectUAV_Images/images/test/AspectUAV_0010.JPG
-/home/n9960392/darknet/data/20190501_AspectUAV_Images/images/test/AspectUAV_0009.JPG
-/home/n9960392/darknet/data/20190501_AspectUAV_Images/images/test/AspectUAV_0008.JPG
-/home/n9960392/darknet/data/20190501_AspectUAV_Images/images/test/AspectUAV_0007.JPG
-/home/n9960392/darknet/data/20190501_AspectUAV_Images/images/test/AspectUAV_0006.JPG
-/home/n9960392/darknet/data/20190501_AspectUAV_Images/images/test/AspectUAV_0004.JPG
-/home/n9960392/darknet/data/20190501_AspectUAV_Images/images/test/AspectUAV_0003.JPG
-/home/n9960392/darknet/data/20190501_AspectUAV_Images/images/test/AspectUAV_0002.JPG
-/home/n9960392/darknet/data/20190501_AspectUAV_Images/images/test/AspectUAV_0001.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0601.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0602.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0603.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0604.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0605.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0606.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0607.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0608.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0609.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0610.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0611.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0612.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0613.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0614.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0615.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0616.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0617.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0618.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0619.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0620.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0621.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0622.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0623.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0624.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0625.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0626.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0627.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0628.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0629.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0630.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0631.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0632.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0633.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0634.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0635.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0636.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0637.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0638.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0639.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0640.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0641.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0642.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0643.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0644.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0645.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0646.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0647.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0648.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0649.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0650.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0651.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0652.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0653.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0654.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0655.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0656.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0657.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0658.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0659.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0660.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0661.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0662.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0663.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0664.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0665.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0666.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0667.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0668.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0669.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0670.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0671.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0672.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0673.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0674.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0675.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0676.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0677.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0678.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0679.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0680.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0681.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0682.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0683.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0684.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0685.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0686.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0687.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0688.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0689.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0690.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0691.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0692.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0693.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0694.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0695.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0696.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0697.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0698.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0699.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0700.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0701.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0702.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0703.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0704.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0705.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0706.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0707.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/20190501/AspectUAV_0708.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/Aspect UAV_0003.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0003.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0004.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0005.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0006.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0007.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0008.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0009.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0010.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0011.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0012.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0013.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0014.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0015.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0016.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0017.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0018.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0019.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0020.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0021.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0022.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0023.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0024.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0025.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0026.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0027.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0028.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0029.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0030.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0031.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0032.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0033.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0034.JPG
+/home/n9960392/darknet/data/training_set_1/images/test/unknown date 1/AspectUAV_0035.JPG

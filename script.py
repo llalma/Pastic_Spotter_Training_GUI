@@ -20,7 +20,6 @@ def Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
                 f.write(str(line[1]))
         f.close()
 
-
 def Create_Batch_Predict(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
     with open("batch.sh", "r+") as f:
         txt = f.readlines()
