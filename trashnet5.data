@@ -1,5 +1,0 @@
-classes = 5
-train   =  /home/n9960392/darknet/data/training_set_1/train.list
-valid   =  /home/n9960392/darknet/data/training_set_1/test.list
-names   =  /home/n9960392/darknet/data/trashnet.names
-backup  =  /home/n9960392/darknet/data/training_set_1/weights/
