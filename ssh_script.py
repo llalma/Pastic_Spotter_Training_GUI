@@ -5,6 +5,8 @@ import paramiko
 import time
 import re
 
+Username = ''
+
 def Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
     with open("batch.sh", "r+") as f:
         txt = f.readlines()
@@ -37,7 +39,7 @@ def Create_Batch_Predict(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
 
 def Create_List(ssh_client,Folder_Name):
 
-    folder = "/home/n9960392/darknet/data/" + Folder_Name.get() + "/images/train"
+    folder = "/home/"+Username+"/darknet/data/" + Folder_Name.get() + "/images/train"
     
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("find "+folder+" -iregex '.+\.jpg'")
 
@@ -50,7 +52,7 @@ def Create_List(ssh_client,Folder_Name):
 
     file.close()
 
-    folder = "/home/n9960392/darknet/data/" + Folder_Name.get() + "/images/test"
+    folder = "/home/"+Username+"/darknet/data/" + Folder_Name.get() + "/images/test"
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("find "+folder+" -iregex '.+\.jpg'")
 
     file = open("test.list","w")
@@ -63,7 +65,7 @@ def Create_List(ssh_client,Folder_Name):
 
 def Create_List_Test(ssh_client):
 
-    folder = "/home/n9960392/darknet/predict/"
+    folder = "/home/"+Username+"/darknet/predict/"
     
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("find "+folder+" -iregex '.+\.jpg'")
 
@@ -78,10 +80,10 @@ def Create_List_Test(ssh_client):
 
 def Create_trashnet5_file(ssh_client,Folder_Name):
     text = ["classes = 5\n",
-        "train   =  /home/n9960392/darknet/data/"+Folder_Name.get()+"/train.list\n",
-        "valid   =  /home/n9960392/darknet/data/"+Folder_Name.get()+"/test.list\n",
-        "names   =  /home/n9960392/darknet/data/trashnet.names\n",
-        "backup  =  /home/n9960392/darknet/data/"+Folder_Name.get()+"/weights/\n"]
+        "train   =  /home/"+Username+"/darknet/data/"+Folder_Name.get()+"/train.list\n",
+        "valid   =  /home/"+Username+"/darknet/data/"+Folder_Name.get()+"/test.list\n",
+        "names   =  /home/"+Username+"/darknet/data/trashnet.names\n",
+        "backup  =  /home/"+Username+"/darknet/data/"+Folder_Name.get()+"/weights/\n"]
 
     file = open("trashnet5.data","w")
     file.truncate()
@@ -93,25 +95,25 @@ def Transfer(ssh_client,Folder_Name):
     #Transfer batch file to HPC
 
     sftp = ssh_client.open_sftp()
-    sftp.put(str(os.getcwd())+"\\batch.sh", "/home/n9960392/darknet/run/batch.sh")
+    sftp.put(str(os.getcwd())+"\\batch.sh", "/home/"+Username+"/darknet/run/batch.sh")
 
     #Transfer test list file to HPC
-    sftp.put(str(os.getcwd())+"\\train.list", "/home/n9960392/darknet/data/" + Folder_Name.get() + "/train.list")
+    sftp.put(str(os.getcwd())+"\\train.list", "/home/"+Username+"/darknet/data/" + Folder_Name.get() + "/train.list")
 
     #Transfer test list file to HPC
-    sftp.put(str(os.getcwd())+"\\test.list", "/home/n9960392/darknet/data/" + Folder_Name.get() + "/test.list")
+    sftp.put(str(os.getcwd())+"\\test.list", "/home/"+Username+"/darknet/data/" + Folder_Name.get() + "/test.list")
 
     #Transfer predict list file to HPC
-    sftp.put(str(os.getcwd())+"\\predict.list", "/home/n9960392/darknet/run/predict.list")
+    sftp.put(str(os.getcwd())+"\\predict.list", "/home/"+Username+"/darknet/run/predict.list")
 
     #Transfer trashnet5.txt to HPC
-    sftp.put(str(os.getcwd())+"\\trashnet5.data", "/home/n9960392/darknet/data/" + Folder_Name.get() + "/trashnet.data")
+    sftp.put(str(os.getcwd())+"\\trashnet5.data", "/home/"+Username+"/darknet/data/" + Folder_Name.get() + "/trashnet.data")
 
     #Convert windows line endii=ngs to unix line endings
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/data/" + Folder_Name.get() + ";dos2unix test.list; dos2unix train.list; dos2unix trashnet.data")
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/run ;dos2unix batch.sh")
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/run ;dos2unix predict.list")
-    # ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd /home/n9960392/darknet/data/" + Folder_Name.get() + ";dos2unix trashnet.data")
+    # ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd /home/"+Username+"/darknet/data/" + Folder_Name.get() + ";dos2unix trashnet.data")
     
 
     #Wait 10 secs to ensure transfer is complete
@@ -147,8 +149,9 @@ def Predict(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name,roo
     ssh_client.close()
     root.destroy()
 
-def Main(ssh_client,root):
+def Main(ssh_client,root,username):
     t = tk.Toplevel(root)
+    Username = username
 
     #Resource Variables
     Run_Time = tk.IntVar()

@@ -35,7 +35,7 @@ def Connect():
             
             if(status):
                 root.withdraw()
-                ssh_script.Main(ssh_client,root)
+                ssh_script.Main(ssh_client,root,Username.get())
             #end
         #end
         except Exception as e:

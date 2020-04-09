@@ -7,6 +7,8 @@ import re
 #variables
 root = tk.Tk()
 root.withdraw()
+top = tk.Toplevel(root)
+top.withdraw()
 
 path = tk.StringVar()
 path.set(os.getcwd())
@@ -81,19 +83,19 @@ def Folder_browse():
 
 
 def Main():
-    root.update()
-    root.deiconify()
+    top.update()
+    top.deiconify()
 
-    tk.Label(root,text="Darknet Folder").grid(row=0,column=0)
-    tk.Entry(root,textvariable = path).grid(row=1,column=1)
-    tk.Button(root,text="Browse",command = Folder_browse).grid(row=1,column=0)
+    tk.Label(top,text="Darknet Folder").grid(row=0,column=0)
+    tk.Entry(top,textvariable = path).grid(row=1,column=1)
+    tk.Button(top,text="Browse",command = Folder_browse).grid(row=1,column=0)
 
-    tk.Label(root,text="Project Name").grid(row=2,column=0)
-    tk.Entry(root,textvariable = project_name).grid(row=2,column=1)
+    tk.Label(top,text="Project Name").grid(row=2,column=0)
+    tk.Entry(top,textvariable = project_name).grid(row=2,column=1)
 
-    tk.Radiobutton(root, text="Train", variable=mode, value=0).grid(row=3,column=0)
-    tk.Radiobutton(root, text="Predict", variable=mode, value=1).grid(row=3,column=1)
+    tk.Radiobutton(top, text="Train", variable=mode, value=0).grid(row=3,column=0)
+    tk.Radiobutton(top, text="Predict", variable=mode, value=1).grid(row=3,column=1)
 
-    tk.Label(root,text="Run").grid(row=4,column=0)
-    tk.Button(root,text="Run",command = run).grid(row=4,column=1)
+    tk.Label(top,text="Run").grid(row=4,column=0)
+    tk.Button(top,text="Run",command = run).grid(row=4,column=1)
 #end
