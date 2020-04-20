@@ -9,14 +9,15 @@ def make_text_files(full_path):
     null_file = []
 
     #Pictures
-    path = full_path + "images"
+    path = full_path + "\\images"
+    print(path)
     for r, d, f in os.walk(path):
         for file in f:
             pictures.append(file.replace('.JPG',''))
     #end
 
     #Text files
-    path = full_path + "labels"
+    path = full_path + "\\labels"
     for r, d, f in os.walk(path):
         for file in f:
             text.append(file.replace('.txt',''))
@@ -26,12 +27,17 @@ def make_text_files(full_path):
         if picture not in text:
             null_file.append(picture + '.txt')
 
+    x = 0
     #Create Empty Text file
-    path = full_path + "labels\\"
+    path = full_path + "\\labels\\"
     for file in null_file:
         #Create empty text file
-        print(file)
         f= open(path + file,"w+")
         f.close()
+
+        x+=1
     #end
+    print(x)
 #end
+
+make_text_files('U:\\Data\\Labelled\\20200326_labelled')
