@@ -17,12 +17,12 @@ def Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
         for line in enumerate(txt):
             line_num+=1
             if(line_num == 78):
-                f.write("    ./../darknet detector train ../data/" + Folder_Name.get() + "/trashnet.data ../data/trashnet.cfg ../data/trashnet.weights\n")
+                f.write("    ./../darknet detector train ../data/training_set/trashnet.data ../data/trashnet.cfg ../data/trashnet.weights\n")
             elif(line_num > 9):
                 f.write(str(line[1]))
         f.close()
 
-def Create_Batch_Predict(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
+def Create_Batch_Predict(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount):
     with open("batch.sh", "r+") as f:
         txt = f.readlines()
         f.seek(0)
@@ -32,18 +32,18 @@ def Create_Batch_Predict(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name):
         for line in enumerate(txt):
             line_num+=1
             if(line_num == 78):
-                f.write("    ./../darknet detector test ../data/" + Folder_Name.get() + "/trashnet.data ../data/trashnet.cfg ../data/trashnet.weights < predict.list > result.txt\n")
+                f.write("    ./../darknet detector test ../data/training_set/trashnet.data ../data/trashnet.cfg ../data/trashnet.weights < predict.list > result.txt\n")
             elif(line_num > 9):
                 f.write(str(line[1]))
         f.close()
 
-def Create_List(ssh_client,Folder_Name):
+def Create_List(ssh_client):
 
-    folder = "/home/"+Username+"/darknet/data/" + Folder_Name.get() + "/images/train"
+    folder = "/home/"+Username+"/trashnet/data/" + Folder_Name.get() + "/images/train"
     
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("find "+folder+" -iregex '.+\.jpg'")
 
-   
+    
     file = open("train.list","w")
     file.truncate()
 
@@ -52,7 +52,7 @@ def Create_List(ssh_client,Folder_Name):
 
     file.close()
 
-    folder = "/home/"+Username+"/darknet/data/" + Folder_Name.get() + "/images/test"
+    folder = "/home/"+Username+"/trashnet/data/" + Folder_Name.get() + "/images/test"
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("find "+folder+" -iregex '.+\.jpg'")
 
     file = open("test.list","w")
@@ -63,9 +63,9 @@ def Create_List(ssh_client,Folder_Name):
 
     file.close()
 
-def Create_List_Test(ssh_client):
+def Create_List_Predict(ssh_client):
 
-    folder = "/home/"+Username+"/darknet/predict/"
+    folder = "/home/"+Username+"/trashnet/predict/"
     
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("find "+folder+" -iregex '.+\.jpg'")
 
@@ -78,73 +78,78 @@ def Create_List_Test(ssh_client):
 
     file.close()
 
-def Create_trashnet5_file(ssh_client,Folder_Name):
+def Create_trashnet5_file(ssh_client):
     text = ["classes = 5\n",
-        "train   =  /home/"+Username+"/darknet/data/"+Folder_Name.get()+"/train.list\n",
-        "valid   =  /home/"+Username+"/darknet/data/"+Folder_Name.get()+"/test.list\n",
-        "names   =  /home/"+Username+"/darknet/data/trashnet.names\n",
-        "backup  =  /home/"+Username+"/darknet/data/"+Folder_Name.get()+"/weights/\n"]
+        "train   =  /home/"+Username+"/trashnet/data/"+Folder_Name.get()+"/train.list\n",
+        "valid   =  /home/"+Username+"/trashnet/data/"+Folder_Name.get()+"/test.list\n",
+        "names   =  /home/"+Username+"/trashnet/data/trashnet.names\n",
+        "backup  =  /home/"+Username+"/trashnet/data/"+Folder_Name.get()+"/weights/\n"]
 
-    file = open("trashnet5.data","w")
+    file = open("trashnet5.data","w+")
     file.truncate()
 
     file.writelines(text)
     file.close()
 
-def Transfer(ssh_client,Folder_Name):
+def Transfer(ssh_client):
     #Transfer batch file to HPC
 
     sftp = ssh_client.open_sftp()
-    sftp.put(str(os.getcwd())+"\\batch.sh", "/home/"+Username+"/darknet/run/batch.sh")
+    sftp.put(str(os.getcwd())+"\\batch.sh", "/home/"+Username+"/trashnet/run/batch.sh")
 
     #Transfer test list file to HPC
-    sftp.put(str(os.getcwd())+"\\train.list", "/home/"+Username+"/darknet/data/" + Folder_Name.get() + "/train.list")
+    sftp.put(str(os.getcwd())+"\\train.list", "/home/"+Username+"/trashnet/data/" + Folder_Name.get() + "/train.list")
 
     #Transfer test list file to HPC
-    sftp.put(str(os.getcwd())+"\\test.list", "/home/"+Username+"/darknet/data/" + Folder_Name.get() + "/test.list")
+    sftp.put(str(os.getcwd())+"\\test.list", "/home/"+Username+"/trashnet/data/" + Folder_Name.get() + "/test.list")
 
     #Transfer predict list file to HPC
-    sftp.put(str(os.getcwd())+"\\predict.list", "/home/"+Username+"/darknet/run/predict.list")
+    sftp.put(str(os.getcwd())+"\\predict.list", "/home/"+Username+"/trashnet/run/predict.list")
 
     #Transfer trashnet5.txt to HPC
-    sftp.put(str(os.getcwd())+"\\trashnet5.data", "/home/"+Username+"/darknet/data/" + Folder_Name.get() + "/trashnet.data")
+    sftp.put(str(os.getcwd())+"\\trashnet5.data", "/home/"+Username+"/trashnet/data/" + Folder_Name.get() + "/trashnet.data")
 
     #Convert windows line endii=ngs to unix line endings
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/data/" + Folder_Name.get() + ";dos2unix test.list; dos2unix train.list; dos2unix trashnet.data")
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/run ;dos2unix batch.sh")
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/run ;dos2unix predict.list")
-    # ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd /home/"+Username+"/darknet/data/" + Folder_Name.get() + ";dos2unix trashnet.data")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd trashnet/data/training_set;dos2unix test.list; dos2unix train.list; dos2unix trashnet.data")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd trashnet/run ;dos2unix batch.sh")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd trashnet/run ;dos2unix predict.list")
+    # ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd /home/"+Username+"/trashnet/data/" + Folder_Name.get() + ";dos2unix trashnet.data")
     
 
-    #Wait 10 secs to ensure transfer is complete
+    #Wait 3 secs to ensure transfer is complete
     time.sleep(3)
 
+    print('Succesfully sent to server')
+#end
         
 #Request_Resources program using variables
-def Request_Resources(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name,root):
-    Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name)
-    Create_List(ssh_client,Folder_Name)
-    Create_trashnet5_file(ssh_client,Folder_Name)
+def Request_Resources(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,root):
+    Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount)
+    Create_List(ssh_client)
+    Create_List_Predict(ssh_client)
+    Create_trashnet5_file(ssh_client)
     
     #Transfer created files to HPC
-    Transfer(ssh_client,Folder_Name)
+    Transfer(ssh_client)
 
     #Execute batch script
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/run; qsub batch.sh")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd trashnet/run; qsub batch.sh")
 
     ssh_client.close()
     root.destroy()
 
 #Predict
-def Predict(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name,root):
-    Create_Batch_Predict(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,Folder_Name)
-    Create_List_Test(ssh_client)
+def Predict(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,root):
+    Create_Batch_Predict(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount)
+    Create_List(ssh_client)
+    Create_List_Predict(ssh_client)
+    Create_trashnet5_file(ssh_client)
     
     #Transfer created files to HPC
-    Transfer(ssh_client,Folder_Name)
+    Transfer(ssh_client)
 
     #Execute batch script
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd darknet/run; qsub batch.sh")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd trashnet/run; qsub batch.sh")
 
     ssh_client.close()
     root.destroy()
@@ -162,12 +167,12 @@ def Main(ssh_client,root,username):
     CPU_Amount.set(1)
     GPU_Amount = tk.IntVar()
     GPU_Amount.set(1)
-    Folder_Name = tk.StringVar()
-    Folder_Name.set("training_set_1")
+    # Folder_Name = tk.StringVar()
+    # Folder_Name.set("training_set_1")
 
     #Folder name on HPC
-    tk.Label(t,text="Folder Name").grid(row=0,sticky="w")
-    tk.Entry(t,textvariable=Folder_Name).grid(row = 0,column = 2)
+    # tk.Label(t,text="Folder Name").grid(row=0,sticky="w")
+    # tk.Entry(t,textvariable=Folder_Name).grid(row = 0,column = 2)
    
     #Resources
     #CPUs
@@ -187,7 +192,7 @@ def Main(ssh_client,root,username):
     tk.Entry(t,textvariable=GPU_Amount).grid(row = 6,column = 2)
 
     #Request_Resources button
-    tk.Button(t,text="Train",command= lambda: Request_Resources(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount, Folder_Name,root)).grid(row = 7,column = 2)
+    tk.Button(t,text="Train",command= lambda: Request_Resources(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,root)).grid(row = 7,column = 2)
 
     #Request_Resources button
-    tk.Button(t,text="Predict",command= lambda: Predict(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount, Folder_Name,root)).grid(row = 8,column = 2)
+    tk.Button(t,text="Predict",command= lambda: Predict(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,root)).grid(row = 8,column = 2)
