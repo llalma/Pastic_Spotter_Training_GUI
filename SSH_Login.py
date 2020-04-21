@@ -1,7 +1,6 @@
 import tkinter as tk
 import paramiko
-# import local_script
-# import ssh_script
+
 
 
 root = tk.Tk()
@@ -39,7 +38,7 @@ def Connect():
             
             if(status):
                 root.withdraw()
-                ssh_script.Main(ssh_client,root,Username.get())
+                func(ssh_client,root,Username.get())
             #end
         #end
         except Exception as e:
