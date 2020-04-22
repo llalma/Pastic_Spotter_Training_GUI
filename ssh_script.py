@@ -39,7 +39,7 @@ def Create_Batch_Predict(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,GPU_type):
 
 def Create_List(ssh_client,username):
 
-    folder = "/home/"+username+"/trashnet/data/training_set/images/train"
+    folder = "/home/"+username+"/Plastic_Spotter/data/training_set/images/train"
     
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("find "+folder+" -iregex '.+\.jpg'")
 
@@ -52,7 +52,7 @@ def Create_List(ssh_client,username):
 
     file.close()
 
-    folder = "/home/"+username+"/trashnet/data/training_set/images/test"
+    folder = "/home/"+username+"/Plastic_Spotter/data/training_set/images/test"
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("find "+folder+" -iregex '.+\.jpg'")
 
     file = open("test.list","w")
@@ -65,7 +65,7 @@ def Create_List(ssh_client,username):
 
 def Create_List_Predict(ssh_client,username):
 
-    folder = "/home/"+username+"/trashnet/run/predict/"
+    folder = "/home/"+username+"/Plastic_Spotter/run/predict/"
     
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("find "+folder+" -iregex '.+\.jpg'")
 
@@ -80,10 +80,10 @@ def Create_List_Predict(ssh_client,username):
 
 def Create_trashnet5_file(ssh_client,username):
     text = ["classes = 5\n",
-        "train   =  /home/"+username+"/trashnet/data/training_set/train.list\n",
-        "valid   =  /home/"+username+"/trashnet/data/training_set/test.list\n",
-        "names   =  /home/"+username+"/trashnet/data/trashnet.names\n",
-        "backup  =  /home/"+username+"/trashnet/data/training_set/weights/\n"]
+        "train   =  /home/"+username+"/Plastic_Spotter/data/training_set/train.list\n",
+        "valid   =  /home/"+username+"/Plastic_Spotter/data/training_set/test.list\n",
+        "names   =  /home/"+username+"/Plastic_Spotter/data/trashnet.names\n",
+        "backup  =  /home/"+username+"/Plastic_Spotter/data/training_set/weights/\n"]
 
     file = open("trashnet5.data","w+")
     file.truncate()
@@ -95,24 +95,24 @@ def Transfer(ssh_client,username):
     #Transfer batch file to HPC
 
     sftp = ssh_client.open_sftp()
-    sftp.put(str(os.getcwd())+"\\batch.sh", "/home/"+username+"/trashnet/run/batch.sh")
+    sftp.put(str(os.getcwd())+"\\batch.sh", "/home/"+username+"/Plastic_Spotter/run/batch.sh")
 
     #Transfer test list file to HPC
-    sftp.put(str(os.getcwd())+"\\train.list", "/home/"+username+"/trashnet/data/training_set/train.list")
+    sftp.put(str(os.getcwd())+"\\train.list", "/home/"+username+"/Plastic_Spotter/data/training_set/train.list")
 
     #Transfer test list file to HPC
-    sftp.put(str(os.getcwd())+"\\test.list", "/home/"+username+"/trashnet/data/training_set/test.list")
+    sftp.put(str(os.getcwd())+"\\test.list", "/home/"+username+"/Plastic_Spotter/data/training_set/test.list")
 
     #Transfer predict list file to HPC
-    sftp.put(str(os.getcwd())+"\\predict.list", "/home/"+username+"/trashnet/run/predict.list")
+    sftp.put(str(os.getcwd())+"\\predict.list", "/home/"+username+"/Plastic_Spotter/run/predict.list")
 
     #Transfer trashnet5.txt to HPC
-    sftp.put(str(os.getcwd())+"\\trashnet5.data", "/home/"+username+"/trashnet/data/training_set/trashnet.data")
+    sftp.put(str(os.getcwd())+"\\trashnet5.data", "/home/"+username+"/Plastic_Spotter/data/training_set/trashnet.data")
 
     #Convert windows line endii=ngs to unix line endings
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd trashnet/data/training_set;dos2unix test.list; dos2unix train.list; dos2unix trashnet.data")
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd trashnet/run ;dos2unix batch.sh")
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd trashnet/run ;dos2unix predict.list")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd Plastic_Spotter/data/training_set;dos2unix test.list; dos2unix train.list; dos2unix trashnet.data")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd Plastic_Spotter/run ;dos2unix batch.sh")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd Plastic_Spotter/run ;dos2unix predict.list")
     # ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd /home/"+username+"/trashnet/data/training_set;dos2unix trashnet.data")
     
 
@@ -133,7 +133,7 @@ def Request_Resources(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,GPU_t
     Transfer(ssh_client,username)
 
     #Execute batch script
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd trashnet/run; qsub batch.sh")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd Plastic_Spotter/run; qsub batch.sh")
 
     ssh_client.close()
     root.destroy()
@@ -149,7 +149,7 @@ def Predict(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,GPU_type,userna
     Transfer(ssh_client,username)
 
     #Execute batch script
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd trashnet/run; qsub batch.sh")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd Plastic_Spotter/run; qsub batch.sh")
 
     ssh_client.close()
     root.destroy()
