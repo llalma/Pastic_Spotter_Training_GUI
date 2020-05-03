@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #PBS -N install_packages
-#PBS -l ncpus=1
-#PBS -l mem=3GB
+#PBS -l ncpus=2
+#PBS -l mem=8GB
 #PBS -l walltime=1:00:00
 #PBS -l ngpus=1
 #PBS -l gputype=M40
@@ -75,7 +75,7 @@ run_program(){
     #where this bash job script is
     cd $PBS_O_WORKDIR
     #now run the script
-    ./../darknet detector test ../data/training_set/trashnet.data ../data/trashnet.cfg ../data/trashnet.weights < predict.list > result.txt
+    ./../darknet detector train ../data/training_set/trashnet.data ../data/trashnet.cfg ../data/trashnet.weights
 }
 
 
@@ -101,12 +101,6 @@ copy_out
 run_program
 run_clean
 
-
 run_program
 run_clean
-
-
-
-
-
 

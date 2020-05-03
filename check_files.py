@@ -40,4 +40,4 @@ def make_text_files(full_path):
     print(x)
 #end
 
-make_text_files('U:\\Data\\Labelled\\20200326_labelled')
+make_text_files('U:\\Data\\Labelled\\20200421_labelled')

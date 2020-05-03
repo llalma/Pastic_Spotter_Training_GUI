@@ -4,6 +4,7 @@ import os
 import paramiko
 import time
 import re
+import math
 
 Username = ''
 
@@ -38,28 +39,30 @@ def Create_Batch_Predict(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,GPU_type):
         f.close()
 
 def Create_List(ssh_client,username):
-
-    folder = "/home/"+username+"/Plastic_Spotter/data/training_set/images/train"
+    #Split 70 ,30
+    folder = "/home/"+username+"/Plastic_Spotter/data/training_set/"
     
     ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("find "+folder+" -iregex '.+\.jpg'")
 
-    
+    paths = ssh_stdout.readlines() 
     file = open("train.list","w")
     file.truncate()
 
+    #Calculate split
+    num_in_train = int(math.floor(len(paths) * 0.7))
+    train_paths = paths[0:num_in_train]
+    test_paths = paths[num_in_train:-1]
     #Remove path preceding current directory
-    file.writelines(ssh_stdout.readlines())
-
+    file.writelines(train_paths)
     file.close()
 
-    folder = "/home/"+username+"/Plastic_Spotter/data/training_set/images/test"
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("find "+folder+" -iregex '.+\.jpg'")
+
 
     file = open("test.list","w")
     file.truncate()
 
     #Remove path preceding current directory
-    file.writelines(ssh_stdout.readlines())
+    file.writelines(test_paths)
 
     file.close()
 
@@ -149,7 +152,7 @@ def Predict(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,GPU_type,userna
     Transfer(ssh_client,username)
 
     #Execute batch script
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd Plastic_Spotter/run; qsub batch.sh")
+    # ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd Plastic_Spotter/run; qsub batch.sh")
 
     ssh_client.close()
     root.destroy()
