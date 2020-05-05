@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #PBS -N install_packages
-#PBS -l ncpus=2
-#PBS -l mem=8GB
-#PBS -l walltime=1:00:00
-#PBS -l ngpus=1
+#PBS -l ncpus=4
+#PBS -l mem=32GB
+#PBS -l walltime=24:00:00
+#PBS -l ngpus=3
 #PBS -l gputype=M40
 #PBS -o bt_20000_stdout.out
 #PBS -e bt_20000_stderr.out
@@ -46,8 +46,8 @@ load_modules(){
     source /etc/profile.d/modules.sh 
 
     #load cuda modules
-    module load cuda
     module load cudnn
+    module load cuda
 
 }    
 
@@ -103,4 +103,9 @@ run_clean
 
 run_program
 run_clean
+
+
+n_program
+run_clean
+
 

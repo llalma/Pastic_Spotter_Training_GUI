@@ -18,7 +18,11 @@ def Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,GPU_type):
         for line in enumerate(txt):
             line_num+=1
             if(line_num == 78):
-                f.write("    ./../darknet detector train ../data/training_set/trashnet.data ../data/trashnet.cfg ../data/trashnet.weights\n")
+                x = "-gpus 0"
+                for num in range(GPU_Amount.get()-1):
+                    x.append("," + str(num+1))
+                #end
+                f.write("    ./../darknet detector train ../data/training_set/trashnet.data ../data/trashnet.cfg ../data/trashnet.weights " + str(x) + "\n")
             elif(line_num > 9):
                 f.write(str(line[1]))
         f.close()
@@ -152,7 +156,7 @@ def Predict(ssh_client,Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,GPU_type,userna
     Transfer(ssh_client,username)
 
     #Execute batch script
-    # ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd Plastic_Spotter/run; qsub batch.sh")
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("cd Plastic_Spotter/run; qsub batch.sh")
 
     ssh_client.close()
     root.destroy()
