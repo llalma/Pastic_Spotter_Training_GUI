@@ -13,7 +13,7 @@ def Create_Batch(Run_Time,RAM_Amount,CPU_Amount,GPU_Amount,GPU_type):
         txt = f.readlines()
         f.seek(0)
 
-        f.write("#!/usr/bin/env bash\n#PBS -N install_packages\n#PBS -l ncpus="+str(CPU_Amount.get())+"\n#PBS -l mem="+str(RAM_Amount.get())+"GB\n#PBS -l walltime="+str(Run_Time.get())+":00:00\n#PBS -l ngpus="+str(GPU_Amount.get())+"\n#PBS -l gputype="+str(GPU_type.get().upper())+"\n#PBS -o bt_20000_stdout.out\n#PBS -e bt_20000_stderr.out\n")
+        f.write("#!/usr/bin/env bash\n#PBS -N install_packages\n#PBS -l ncpus="+str(CPU_Amount.get())+"\n#PBS -l mem="+str(RAM_Amount.get())+"GB\n#PBS -l walltime="+str(Run_Time.get())+":00:00\n#PBS -l ngpus="+str(GPU_Amount.get())+"\n#PBS -l gputype="+str(GPU_type.get())+"\n#PBS -o bt_20000_stdout.out\n#PBS -e bt_20000_stderr.out\n")
         line_num = 0
         for line in enumerate(txt):
             line_num+=1
